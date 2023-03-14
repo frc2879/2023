@@ -16,4 +16,10 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
+
+  public static class RobotConstants {
+    public static final int kClawControllerId = 5;
+    public static final int kDrivetrainRightMotor = 10;
+    public static final int kDrivetrainLeftMotor = 20; 
+  }
 }
