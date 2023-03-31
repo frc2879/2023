@@ -13,6 +13,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
     public DrivetrainSubsystem() {
         this.rightMotor = new TalonFX(Constants.RobotConstants.kDrivetrainRightMotor);
         this.leftMotor = new TalonFX(Constants.RobotConstants.kDrivetrainLeftMotor);
+
+        rightMotor.configOpenloopRamp(2);
+        leftMotor.configOpenloopRamp(2);
     }
 
     public void moveTank(double throttle, double yaw) {
@@ -30,7 +33,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     private double[] getMotorSpeeds(double throttle, double yaw) {
         double[] motion = {throttle, yaw};
-        int[][] wheelBooleans = {{1, 1},{-1, 1}};
+        int[][] wheelBooleans = {{1, -1},{-1, -1}};
         double[] wheelSpeeds = {0, 0};
         for(int w = 0; w < 2; w++) {
             for(int b = 0; b < 2; b++) { 

@@ -32,6 +32,10 @@ public class ClawSubsystem extends SubsystemBase {
     this.clawMotor.set(ControlMode.PercentOutput, 0);
   }
 
+  public void moveClaw(double pct) {
+    this.clawMotor.set(ControlMode.PercentOutput, pct);
+  }
+
   /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).
    *
@@ -39,6 +43,10 @@ public class ClawSubsystem extends SubsystemBase {
    */
   public boolean fwdLimit() {
     return this.clawMotor.isFwdLimitSwitchClosed() > 0;
+  }
+
+  public boolean revLimit() {
+    return this.clawMotor.isRevLimitSwitchClosed() > 0;
   }
 
   @Override

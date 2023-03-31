@@ -21,5 +21,7 @@ public final class Constants {
     public static final int kClawControllerId = 5;
     public static final int kDrivetrainRightMotor = 10;
     public static final int kDrivetrainLeftMotor = 20; 
+    public static final int shoulderMotor = 6;
+    public static final int extendMotor = 3;
   }
 }

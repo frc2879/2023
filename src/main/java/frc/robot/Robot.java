@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -17,6 +19,7 @@ import frc.robot.commands.XboxDriveCommand;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
+  //private SlewRateLimiter throttleSlewLimiter = new SlewRateLimiter(0.1, -0.1, 0);
 
   private RobotContainer m_robotContainer;
 
@@ -29,6 +32,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    CameraServer.startAutomaticCapture();
   }
 
   /**
@@ -81,8 +85,16 @@ public class Robot extends TimedRobot {
 
     m_robotContainer.drivetrain_subsystem.setDefaultCommand(
       new XboxDriveCommand(m_robotContainer.drivetrain_subsystem,
-      () -> m_robotContainer.m_driverController.getLeftY(),
-      () -> m_robotContainer.m_driverController.getRightX()));
+      () -> square(applyDeadzone(0.20, m_robotContainer.m_driverController.getLeftY())) * 0.5 ,
+      () -> square(applyDeadzone(0.20, m_robotContainer.m_driverController.getRightX())) * 0.5));
+  }
+
+  private Double square(Double input) {
+    return input*Math.abs(input);
+  }
+
+  private Double applyDeadzone(Double pct, Double input) {
+    return Math.abs(input) > pct ? input : 0;
   }
 
   /** This function is called periodically during operator control. */
