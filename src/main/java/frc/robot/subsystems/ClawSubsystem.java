@@ -21,15 +21,19 @@ public class ClawSubsystem extends SubsystemBase {
   }
 
   public void moveClawClosed() {
-    this.clawMotor.set(ControlMode.PercentOutput, 0.30);
+    this.clawMotor.set(ControlMode.PercentOutput, 0.9);
   }
 
   public void moveClawOpen() {
-    this.clawMotor.set(ControlMode.PercentOutput, -0.30);
+    this.clawMotor.set(ControlMode.PercentOutput, -0.7);
   }
 
   public void stopClaw() {
     this.clawMotor.set(ControlMode.PercentOutput, 0);
+  }
+
+  public void moveClaw(double pct) {
+    this.clawMotor.set(ControlMode.PercentOutput, pct);
   }
 
   /**
@@ -39,6 +43,10 @@ public class ClawSubsystem extends SubsystemBase {
    */
   public boolean fwdLimit() {
     return this.clawMotor.isFwdLimitSwitchClosed() > 0;
+  }
+
+  public boolean revLimit() {
+    return this.clawMotor.isRevLimitSwitchClosed() > 0;
   }
 
   @Override

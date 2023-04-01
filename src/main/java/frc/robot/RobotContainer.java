@@ -5,10 +5,15 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.ArmPositionCommand;
+import frc.robot.commands.ArmZeroCommand;
 import frc.robot.commands.Autos;
 import frc.robot.commands.CloseClawCommand;
-import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.MoveClawCommand;
 import frc.robot.commands.OpenClawCommand;
+import frc.robot.commands.RetractArmCommand;
+import frc.robot.commands.SlideArmCommand;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -27,6 +32,7 @@ public class RobotContainer {
   public final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public final ClawSubsystem claw_subsystem = new ClawSubsystem();
   public final DrivetrainSubsystem drivetrain_subsystem = new DrivetrainSubsystem();
+  public final ArmSubsystem armSubsystem = new ArmSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public final CommandXboxController m_driverController =
@@ -50,8 +56,17 @@ public class RobotContainer {
   private void configureBindings() {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.rightTrigger().onTrue(new CloseClawCommand(claw_subsystem)).debounce(2);
-    m_driverController.leftTrigger().onTrue(new OpenClawCommand(claw_subsystem)).debounce(2);
+    m_driverController.rightBumper().whileTrue(new MoveClawCommand(claw_subsystem, 0.7));
+    m_driverController.rightBumper().onFalse(new MoveClawCommand(claw_subsystem, 0));
+    m_driverController.leftBumper().onTrue(new OpenClawCommand(claw_subsystem)).debounce(2);
+    m_driverController.leftTrigger().whileTrue(new SlideArmCommand(armSubsystem, 0.5));
+    m_driverController.rightTrigger().whileTrue(new SlideArmCommand(armSubsystem, -0.5));
+    m_driverController.leftTrigger().onFalse(new SlideArmCommand(armSubsystem, 0));
+    m_driverController.rightTrigger().onFalse(new SlideArmCommand(armSubsystem, 0));
+    m_driverController.a().onTrue(new ArmPositionCommand(armSubsystem, 1));
+    m_driverController.b().onTrue(new ArmPositionCommand(armSubsystem, 2));
+    m_driverController.y().onTrue(new ArmPositionCommand(armSubsystem, 3));
+    m_driverController.x().onTrue(new RetractArmCommand(armSubsystem).andThen(new ArmZeroCommand(armSubsystem)));
   }
 
   /**d
