@@ -43,10 +43,10 @@ public class ArmSubsystem extends SubsystemBase {
 
         // Configure joint motor for Motion Control
         jointPIDController = jointMotor.getPIDController();
-        jointPIDController.setP(0.02); // set P gain
+        jointPIDController.setP(0.03); // set P gain
         jointPIDController.setI(0); // set I gain
         jointPIDController.setD(0.005); // set D gain
-        jointPIDController.setFF(0.0005); // set feedforward gain
+        jointPIDController.setFF(0.002); // set feedforward gain
         jointPIDController.setOutputRange(-0.5, 0.5); // set output range
     }
 
@@ -83,15 +83,19 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void slide(double pct) {
-        this.extensionMotor.set(ControlMode.PercentOutput, pct);
+        if(pct > 0 && this.encoder.getPosition() >= (tare - 4)) {
+            System.out.println("WARN: Attempt to extend arm while inside frame!");
+        } else {
+            this.extensionMotor.set(ControlMode.PercentOutput, pct);
+        }
     }
 
     public void extend(){
-        this.extensionMotor.set(ControlMode.PercentOutput, 0.5);
+        this.slide( 0.8);
     }
 
     public void retract() {
-        this.extensionMotor.set(ControlMode.PercentOutput, -0.5);
+        this.extensionMotor.set(ControlMode.PercentOutput, -0.8);
     }
 
     public boolean slideFwdLimitIsPressed() {

@@ -56,14 +56,14 @@ public class RobotContainer {
   private void configureBindings() {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.rightBumper().whileTrue(new MoveClawCommand(claw_subsystem, 0.2));
+    m_driverController.rightBumper().whileTrue(new MoveClawCommand(claw_subsystem, 0.7));
     m_driverController.rightBumper().onFalse(new MoveClawCommand(claw_subsystem, 0));
     m_driverController.leftBumper().onTrue(new OpenClawCommand(claw_subsystem)).debounce(2);
     m_driverController.leftTrigger().whileTrue(new SlideArmCommand(armSubsystem, 0.5));
     m_driverController.rightTrigger().whileTrue(new SlideArmCommand(armSubsystem, -0.5));
     m_driverController.leftTrigger().onFalse(new SlideArmCommand(armSubsystem, 0));
     m_driverController.rightTrigger().onFalse(new SlideArmCommand(armSubsystem, 0));
-    m_driverController.a().onTrue(new RetractArmCommand(armSubsystem).andThen(new ArmPositionCommand(armSubsystem, 1)));
+    m_driverController.a().onTrue(new ArmPositionCommand(armSubsystem, 1));
     m_driverController.b().onTrue(new ArmPositionCommand(armSubsystem, 2));
     m_driverController.y().onTrue(new ArmPositionCommand(armSubsystem, 3));
     m_driverController.x().onTrue(new RetractArmCommand(armSubsystem).andThen(new ArmZeroCommand(armSubsystem)));

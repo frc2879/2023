@@ -21,11 +21,11 @@ public class ClawSubsystem extends SubsystemBase {
   }
 
   public void moveClawClosed() {
-    this.clawMotor.set(ControlMode.PercentOutput, 0.30);
+    this.clawMotor.set(ControlMode.PercentOutput, 0.9);
   }
 
   public void moveClawOpen() {
-    this.clawMotor.set(ControlMode.PercentOutput, -0.30);
+    this.clawMotor.set(ControlMode.PercentOutput, -0.7);
   }
 
   public void stopClaw() {

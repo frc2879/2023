@@ -86,7 +86,7 @@ public class Robot extends TimedRobot {
     m_robotContainer.drivetrain_subsystem.setDefaultCommand(
       new XboxDriveCommand(m_robotContainer.drivetrain_subsystem,
       () -> square(applyDeadzone(0.20, m_robotContainer.m_driverController.getLeftY())) * 0.5 ,
-      () -> square(applyDeadzone(0.20, m_robotContainer.m_driverController.getRightX())) * 0.5));
+      () -> square(applyDeadzone(0.20, m_robotContainer.m_driverController.getRightX())) * 0.3));
   }
 
   private Double square(Double input) {
